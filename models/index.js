@@ -16,3 +16,4 @@ exports.AdsItems = require('./AdsItems');
 exports.ContentTemplate = require('./ContentTemplate');
 exports.TemplateItems = require('./TemplateItems');
 exports.Shop = require('./Shop');
+exports.Category = require('./Category');

@@ -3,36 +3,37 @@ const router = express.Router()
 router.caseSensitive = true
 router.strict = true
 const {
-  AdminUser,
-  AdminGroup,
-  AdminResource,
-  ContentCategory,
-  Content,
-  ContentTag,
-  User,
-  Message,
-  SystemConfig,
-  DataOptionLog,
-  SystemOptionLog,
-  UserNotify,
-  Notify,
-  Shop
+    AdminUser,
+    AdminGroup,
+    AdminResource,
+    ContentCategory,
+    Content,
+    ContentTag,
+    User,
+    Message,
+    SystemConfig,
+    DataOptionLog,
+    SystemOptionLog,
+    UserNotify,
+    Notify,
+    Shop,
+    Category
 } = require('../controller');
 const {
-  authSession,
-  authToken,
-  authPower
+    authSession,
+    authToken,
+    authPower
 } = require('../utils');
 
 
 // 管理员退出
 router.get('/logout', (req, res) => {
-  req.session.adminlogined = false;
-  req.session.adminPower = '';
-  req.session.adminUserInfo = '';
-  res.send({
-    status: 200
-  });
+    req.session.adminlogined = false;
+    req.session.adminPower = '';
+    req.session.adminUserInfo = '';
+    res.send({
+        status: 200
+    });
 });
 
 // 获取管理员信息
@@ -66,7 +67,7 @@ router.get('/adminGroup/deleteGroup', authToken, authPower, AdminGroup.delAdminG
 
 /**
  * 资源管理
- * 
+ *
  */
 //获取菜单
 router.get('/adminResource/getList', authToken, authPower, AdminResource.getAdminResources)
@@ -89,7 +90,7 @@ router.post('/systemConfig/updateConfig', SystemConfig.updateSystemConfig)
 
 /**
  * 文档类别管理
- * 
+ *
  */
 router.get('/contentCategory/getList', ContentCategory.getContentCategories)
 
@@ -101,7 +102,7 @@ router.get('/contentCategory/deleteCategory', ContentCategory.delContentCategory
 
 /**
  * 文档管理
- * 
+ *
  */
 
 router.get('/content/getList', Content.getContents)
@@ -167,26 +168,38 @@ router.get('/systemOptionLog/getList', SystemOptionLog.getSystemOptionLogs);
 router.get('/systemOptionLog/deleteLogItem', SystemOptionLog.delSystemOptionLogs);
 
 // 清空日志
-router.get('/systemOptionLog/deleteAllLogItem', (req, res, next) => { req.query.ids = 'all'; next() }, SystemOptionLog.delSystemOptionLogs);
+router.get('/systemOptionLog/deleteAllLogItem', (req, res, next) => {
+    req.query.ids = 'all';
+    next()
+}, SystemOptionLog.delSystemOptionLogs);
 
 
 /**
  * 系统消息
  */
 
-router.get('/systemNotify/getList', (req, res, next) => { req.query.systemUser = req.session.adminUserInfo._id; next() }, UserNotify.getUserNotifys);
+router.get('/systemNotify/getList', (req, res, next) => {
+    req.query.systemUser = req.session.adminUserInfo._id;
+    next()
+}, UserNotify.getUserNotifys);
 
 //删除操作日志
 router.get('/systemNotify/deleteNotifyItem', UserNotify.delUserNotify);
 
 // 设为已读消息
-router.get('/systemNotify/setHasRead', (req, res, next) => { req.query.systemUser = req.session.adminUserInfo._id; next() }, UserNotify.setMessageHasRead);
+router.get('/systemNotify/setHasRead', (req, res, next) => {
+    req.query.systemUser = req.session.adminUserInfo._id;
+    next()
+}, UserNotify.setMessageHasRead);
 
 /**
  * 系统公告
  */
 
-router.get('/systemAnnounce/getList', (req, res, next) => { req.query.type = '1'; next() }, Notify.getNotifys);
+router.get('/systemAnnounce/getList', (req, res, next) => {
+    req.query.type = '1';
+    next()
+}, Notify.getNotifys);
 
 // 删除公告
 router.get('/systemAnnounce/deleteItem', Notify.delNotify);
@@ -194,7 +207,10 @@ router.get('/systemAnnounce/deleteItem', Notify.delNotify);
 //发布系统公告
 router.post('/systemAnnounce/addOne', Notify.addOneSysNotify);
 
-//获取商店信息
+//获取餐馆列表
 router.get('/shopping/restaurants', Shop.getRestaurants);
+router.post('/shopping/updateRestaurant', Shop.updateRestaurant);
+//获取餐馆种类
+router.get('/shopping/getCategories', Category.getCategories);
 
 module.exports = router

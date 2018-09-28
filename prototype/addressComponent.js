@@ -24,7 +24,7 @@ class AddressComponent extends BaseComponent {
 	 		const ipArr = ip.split(':');
 	 		ip = ipArr[ipArr.length -1];
 	 		if (process.env.NODE_ENV == 'development') {
-	 			ip = '180.158.102.141';
+	 			ip = '124.65.123.170';
 	 		}
 	 		try{
 		 		let result = await this.fetch('http://apis.map.qq.com/ws/location/v1/ip', {

@@ -11,6 +11,7 @@ const shopSchema = new mongoose.Schema({
 		name: String,
 	}],
 	address: String,
+    addressTotal: String,
 	delivery_mode: {
 		color: String,
 		id: Number,
@@ -37,7 +38,7 @@ const shopSchema = new mongoose.Schema({
 		registered_address: { type: String, default: "" },
 		registered_number: { type: String, default: "" },
 	},
-	image_path: { type: String, default: "" },
+	image_path: { type: Array, default: [] },
 	is_premium: { type: Boolean, default: false },
 	is_new: { type: Boolean, default: false },
 	latitude: Number,
