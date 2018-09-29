@@ -195,6 +195,10 @@ var siteFunc = {
             responseMessage = res.__("resdata_getlist_error", { error: responseMessage })
         } else if (type == 'checkform') {
             responseMessage = res.__("resdata_checkformdata_error", { error: responseMessage })
+        } else if (type == 'exists'){
+            responseMessage = res.__("resdata_existsdata_error", { error: responseMessage })
+        } else if (type == 'reqError'){
+            responseMessage = res.__("resdata_reqError_error", { error: responseMessage })
         }
         let errorData = {
             status: responseCode,

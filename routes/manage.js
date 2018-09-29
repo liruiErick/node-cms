@@ -209,7 +209,12 @@ router.post('/systemAnnounce/addOne', Notify.addOneSysNotify);
 
 //获取餐馆列表
 router.get('/shopping/restaurants', Shop.getRestaurants);
+
 router.post('/shopping/updateRestaurant', Shop.updateRestaurant);
+
+router.post('/shopping/addRestaurant', Shop.addRestaurant);
+
+router.get('/shopping/delRestaurant', Shop.delRestaurant);
 //获取餐馆种类
 router.get('/shopping/getCategories', Category.getCategories);
 

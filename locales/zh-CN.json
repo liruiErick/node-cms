@@ -117,6 +117,8 @@
     "resdata_savedata_error": "保存数据失败: {{error}} ",
     "resdata_updatedata_error": "更新数据失败: {{error}} ",
     "resdata_checkformdata_error": "参数校验失败: {{error}} ",
+    "resdata_existsdata_error": "数据已经存在: {{error}} ",
+    "resdata_reqError_error": "请求出错: {{error}} ",
     "resdata_checkSysConfig_error": "请先完善系统配置信息",
     "resdata_setnoticeread_success": "设置已读成功",
     "resdata_setnoticeread_error": "设置已读失败: {{error}}",
