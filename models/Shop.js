@@ -44,8 +44,8 @@ const shopSchema = new mongoose.Schema({
 	latitude: Number,
 	longitude: Number,
 	license: {
-		business_license_image: { type: String, default: "" },
-		catering_service_license_image: { type: String, default: "" },
+		business_license_image: { type: Array, default: [] },
+		catering_service_license_image: { type: Array, default: [] },
 	},
 	name: {
         type: String,
