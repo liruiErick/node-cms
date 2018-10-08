@@ -225,7 +225,9 @@ class Shop {
                 res.send(siteFunc.renderApiErr(req, res, 500, err, 'reqError'))
                 return
             }
-            const {name, address, addressTotal, description, phone, category, id, image_path} = fields;
+            const {name, address, addressTotals, description, phone, id, image_path} = fields;
+            let addressTotal = Array.isArray(fields.addressTotal)?fields.addressTotal.join('/'):fields.addressTotal;
+            let category = Array.isArray(fields.category)?fields.category.join('/'):fields.category;
             try {
                 if (!name) {
                     throw new Error('餐馆名称不能为空');
@@ -244,7 +246,7 @@ class Shop {
                 } else if (!image_path) {
                     throw new Error('餐馆图片地址不能为空');
                 }
-                let newData = {name, address, addressTotal, description, phone, category, image_path}
+                let newData = {name, address, addressTotal, addressTotals, description, phone, category, image_path}
                 const restuantsData = await ShopModel.findOneAndUpdate({id}, {$set: newData});
                 let renderData = siteFunc.renderApiData(res, 200, 'ads', restuantsData, 'getlist')
                 res.send(renderData);

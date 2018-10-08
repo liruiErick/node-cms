@@ -17,7 +17,8 @@ const {
     UserNotify,
     Notify,
     Shop,
-    Category
+    Category,
+    Goods
 } = require('../controller');
 const {
     authSession,
@@ -217,5 +218,8 @@ router.post('/shopping/addRestaurant', Shop.addRestaurant);
 router.get('/shopping/delRestaurant', Shop.delRestaurant);
 //获取餐馆种类
 router.get('/shopping/getCategories', Category.getCategories);
+
+//获取商品列表
+router.get('/goods/goods', Goods.getGoods);
 
 module.exports = router

@@ -14,4 +14,5 @@ exports.SystemOptionLog = require('./systemOptionLog');
 exports.Ads = require('./ads');
 exports.ContentTemplate = require('./contentTemplate');
 exports.Shop = require('./shop');
+exports.Goods = require('./goods');
 exports.Category = require('./category');
