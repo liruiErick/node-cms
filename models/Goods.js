@@ -51,26 +51,17 @@ const foodSchema = new Schema({
                 value: String
             }
         ]
-    }]
+    }],
+    shop: {
+        "id": {type: Number, default: 1},
+        "name": {type: String, isRequired: true},
+        "address": {type: String, isRequired: true},
+        "category": {type: String, isRequired: true}
+    }
 });
 
 foodSchema.index({item_id: 1});
 
-const menuSchema = new Schema({
-    description: String,
-    is_selected: {type: Boolean, default: true},
-    icon_url: {type: String, default: ''},
-    name: {type: String, isRequired: true},
-    id: {type: Number, isRequired: true},
-    restaurant_id: {type: Number, isRequired: true},
-    type: {type: Number, default: 1},
-    foods: [foodSchema]
-});
-
-menuSchema.index({id: 1});
-
 const Food = mongoose.model('Food', foodSchema);
 
-const Menu = mongoose.model('Menu', menuSchema);
-
-module.exports = {Food, Menu}
+module.exports = Food
