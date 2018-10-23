@@ -63,7 +63,6 @@ class DataItem {
                     //生成压缩文件
                     let output = fs.createWriteStream(databackforder + ms + '.zip');
                     let archive = archiver('zip');
-
                     output.on('close', function () {
                         console.log(archive.pointer() + ' total bytes');
                         console.log('--数据备份成功--');
@@ -75,6 +74,7 @@ class DataItem {
                             fileName: ms + '.zip'
                         }
                         let newDataBack = new DataOptionLogModel(optParams);
+
                         newDataBack.save((err) => {
                             if (err) {
                                 console.log('备份失败：', err);
