@@ -41,12 +41,6 @@ router.get('/getSitBasicInfo', AdminUser.getBasicSiteInfo)
  */
 router.get('/adminUser/getList', authToken, authPower, AdminUser.getAdminUsers)
 
-router.post('/adminUser/addOne', authToken, authPower, AdminUser.addAdminUser)
-
-router.post('/adminUser/updateOne', authToken, authPower, AdminUser.updateAdminUser)
-
-router.get('/adminUser/deleteUser', authToken, authPower, AdminUser.delAdminUser)
-
 /**
  * 角色管理
  */
