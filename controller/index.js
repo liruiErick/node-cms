@@ -6,3 +6,4 @@ exports.SystemOptionLog = require('./systemOptionLog');
 exports.Shop = require('./shop');
 exports.Goods = require('./goods');
 exports.Category = require('./category');
+exports.User = require('./user');

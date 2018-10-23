@@ -7,7 +7,6 @@ const SystemOptionLogModel = require("../models").SystemOptionLog;
 const UserNotifyModel = require("../models").UserNotify;
 const MessageModel = require("../models").Message;
 const formidable = require('formidable');
-const validator = require('validator')
 const _ = require('lodash')
 const { validatorUtil, siteFunc } = require('../utils');
 
@@ -15,37 +14,8 @@ const settings = require('../config/default');
 const axios = require('axios');
 const pkgInfo = require('../package.json')
 
-function checkFormData(req, res, fields) {
-    let errMsg = '';
-    if (fields._id && !siteFunc.checkCurrentId(fields._id)) {
-        errMsg = res.__("validate_error_params");
-    }
-    if (!validatorUtil.checkUserName(fields.userName)) {
-        errMsg = res.__("validate_rangelength", { min: 5, max: 12, label: res.__("label_user_userName") });
-    }
-    if (!validatorUtil.checkName(fields.name)) {
-        errMsg = res.__("validate_rangelength", { min: 2, max: 6, label: res.__("label_name") });
-    }
-    if (fields.password !== fields.confirmPassword) {
-        errMsg = res.__("validate_error_pass_atypism");
-    }
-    if (fields.phoneNum && !validatorUtil.checkPhoneNum(fields.phoneNum)) {
-        errMsg = res.__("validate_inputCorrect", { label: res.__("label_user_phoneNum") });
-    }
-    if (!validatorUtil.checkEmail(fields.email)) {
-        errMsg = res.__("validate_inputCorrect", { label: res.__("label_user_email") });
-    }
-    if (fields.comments && !validator.isLength(fields.comments, 5, 30)) {
-        errMsg = res.__("validate_rangelength", { min: 5, max: 30, label: res.__("label_comments") });
-    }
-    if (errMsg) {
-        throw new siteFunc.UserException(errMsg);
-    }
-}
-
 class AdminUser {
     constructor() {
-        // super()
     }
 
     async getUserSession(req, res, next) {
@@ -246,104 +216,6 @@ class AdminUser {
                 res.send(siteFunc.renderApiErr(req, res, 500, err));
             }
         })
-    }
-
-    async addAdminUser(req, res, next) {
-        const form = new formidable.IncomingForm();
-        form.parse(req, async (err, fields, files) => {
-            try {
-                checkFormData(req, res, fields);
-            } catch (err) {
-                console.log(err.message, err);
-                res.send(siteFunc.renderApiErr(req, res, 500, err, 'checkform'));
-            }
-
-            const userObj = {
-                userName: fields.userName,
-                name: fields.name,
-                email: fields.email,
-                phoneNum: fields.phoneNum,
-                password: fields.password,
-                confirm: fields.confirm,
-                group: fields.group,
-                enable: fields.enable,
-                comments: fields.comments
-            }
-
-            try {
-                let user = await AdminUserModel.find().or([{ userName: fields.userName }])
-                if (!_.isEmpty(user)) {
-
-                    res.send(siteFunc.renderApiErr(req, res, 500, res.__("validate_hadUse_userName")));
-
-                } else {
-                    const newAdminUser = new AdminUserModel(userObj);
-                    await newAdminUser.save();
-                    res.send(siteFunc.renderApiData(res, 200, 'adminUser', { id: newAdminUser._id }, 'save'))
-                }
-            } catch (err) {
-
-                res.send(siteFunc.renderApiErr(req, res, 500, err, 'save'));
-            }
-
-        })
-    }
-
-    async updateAdminUser(req, res, next) {
-        const form = new formidable.IncomingForm();
-        form.parse(req, async (err, fields, files) => {
-            try {
-                checkFormData(req, res, fields);
-            } catch (err) {
-                res.send(siteFunc.renderApiErr(req, res, 500, err, 'checkform'));
-            }
-
-            const userObj = {
-                userName: fields.userName,
-                name: fields.name,
-                email: fields.email,
-                phoneNum: fields.phoneNum,
-                password: fields.password,
-                confirm: fields.confirm,
-                group: fields.group,
-                enable: fields.enable,
-                comments: fields.comments
-            }
-            const item_id = fields._id;
-            try {
-                await AdminUserModel.findOneAndUpdate({
-                    _id: item_id
-                }, {
-                    $set: userObj
-                });
-                res.send(siteFunc.renderApiData(res, 200, 'adminUser', {}, 'update'))
-            } catch (err) {
-                res.send(siteFunc.renderApiErr(req, res, 500, err, 'update'));
-            }
-        })
-
-    }
-
-    async delAdminUser(req, res, next) {
-        try {
-            let errMsg = '';
-            if (!siteFunc.checkCurrentId(req.query.ids)) {
-                errMsg = res.__("validate_error_params");
-            }
-            if (errMsg) {
-                throw new siteFunc.UserException(errMsg);
-            }
-            let adminUserMsg = await MessageModel.find({ 'adminAuthor': req.query.ids });
-            if (!_.isEmpty(adminUserMsg)) {
-                res.send(siteFunc.renderApiErr(req, res, 500, res.__("validate_del_adminUser_notice"), 'delete'));
-            }
-            await AdminUserModel.remove({
-                _id: req.query.ids
-            });
-            res.send(siteFunc.renderApiData(res, 200, 'adminUser', {}, 'delete'))
-        } catch (err) {
-            res.send(siteFunc.renderApiErr(req, res, 500, err, 'delete'));
-        }
     }
 
 }

@@ -1,8 +1,6 @@
 'use strict';
 
 import Food from '../models/Goods'
-import Shop from '../models/Shop'
-
 const {siteFunc} = require('../utils');
 
 class Goods {
